@@ -1,0 +1,222 @@
+
+<main class="main mein" style="padding-right: 1rem;">
+	<loading-service></loading-service>  
+	<msg-component [mensaje]="mensaje" > </msg-component>
+	
+    <div class="pagetitle">
+        <h1>Alertas de Monitoreo</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+            <li class="breadcrumb-item">Monitoreo</li>
+            <li class="breadcrumb-item active">Alertas</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+	<div class="p-4" style="background-color: #ffffff; padding: 10px;">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-12">
+			<div class="mb-3" style="display: inline-block;">
+				<label for="inputDate" class=" col-form-label font-regular" style="font-size: 12px;">Fecha (Inicio)</label>
+				<div class="">
+				  <input type="date" class="form-control">
+				</div>
+			  </div>
+			  <div class="mb-3" style="display: inline-block;">
+				<label for="inputDate" class=" col-form-label font-regular" style="font-size: 12px;">Fecha (Fin)</label>
+				<div class="">
+				  <input type="date" class="form-control">
+				</div>
+			  </div>
+			
+			<button class="btn btn-primary waves-effect font-regular" (click)="search()" style="font-size:12px;"><i class="fa fa-search fa-lg"></i>&nbsp;Search</button>
+		</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;color:#00b8d4;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;color:#00b8d4;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<div class="row" style="margin-top:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+					
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<label class="font-regular" style="font-size:12px;margin-bottom:0px;">{{subtitle3}}</label>
+							<input type="text" style="font-size:12px;" name="lot" id="lot" class="form-control font-regular" [(ngModel)]="lot"  maxlength="40">
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<label class="font-regular" style="font-size:12px;margin-bottom:0px;">{{subtitle4}}</label>
+							<input type="text" style="font-size:12px;text-transform:lowercase;" name="nro_affiliation" id="nro_affiliation" class="form-control font-regular" [(ngModel)]="nro_affiliation"  maxlength="40">
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<label class="font-regular" style="font-size:12px;margin-bottom:0px;">{{subtitle5}}</label>
+							<select  name="type" style="margin-bottom:0px;margin-top:0px;border-radius:4px;font-size:12px;" [(ngModel)]="status"  class="form-select browser-default custom-select font-regular" placeholder="Estatus">
+								<option *ngFor='let item of listStatus' [value]="item.value" style="font-size:12px;" class="font-regular">{{item.name}}</option>
+							</select>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12 reportButtons" style="text-align:right;margin-top:15px;">
+							<button type="button" class="btn btn-secondary waves-effect font-regular" (click)="clean()" style="font-size:12px;"><i class="fa fa-eraser fa-lg"></i>&nbsp;Clean</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  *ngIf="listRegister!=null && listRegister.length!=0">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+					<table id="table" class="table table-hover table-mc-light-blue">
+						<thead>
+							<tr>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Fecha Apertura</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Lote</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Afiliación</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Moneda</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Cant. Efectivas</th>
+								<th class="font-bold" style="color:#62757f;text-align:right;font-size:11px;padding: 0.60rem;">Monto. Efectivas</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Cant. Anuladas</th>
+								<th class="font-bold" style="color:#62757f;text-align:right;font-size:11px;padding: 0.60rem;">Monto. Anuladas</th>
+								<th class="font-bold" style="color:#62757f;text-align:center;font-size:11px;padding: 0.60rem;">Estatus</th>
+								<th class="font-bold" style="color:#62757f;text-align:right;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of listRegister let i = index;">
+								<td data-title="Fecha Apertura" class="font-regular left_aligned" *ngIf="item.formatted_date!=null" style="font-size:10px;">
+									&nbsp;{{item.formatted_date}}
+								</td>
+								<td data-title="Fecha" class="font-regular left_aligned" *ngIf="item.formatted_date==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Lote" class="font-regular left_aligned" *ngIf="item.lot_number!=null" style="font-size:10px;">
+									&nbsp;{{item.lot_number}}
+								</td>
+								<td data-title="Lote" class="font-regular left_aligned" *ngIf="item.lot_number==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Afil." class="font-regular center_aligned" *ngIf="item.affiliation!=null" style="font-size:10px;">
+									&nbsp;{{item.affiliation}}<br  *ngIf="item.device_id!=null">
+									<label class="font-bold" style="font-size:10px;" *ngIf="item.device_id!=null">{{item.device_id}}</label>
+								</td>
+								<td data-title="Afil." class="font-regular center_aligned" *ngIf="item.affiliation==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Moneda" class="font-regular center_aligned" *ngIf="item.currency_code!=null" style="font-size:10px;">
+									&nbsp;{{item.currency_code}}
+								</td>
+								<td data-title="Moneda" class="font-regular center_aligned" *ngIf="item.currency_code==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Cant.Efect" class="font-regular center_aligned" *ngIf="item.count_efective!=null" style="font-size:10px;">
+									&nbsp;{{item.count_efective}}
+								</td>
+								<td data-title="Cant.Efect" class="font-regular center_aligned" *ngIf="item.count_efective==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Monto.Efect" class="font-regular" *ngIf="item.formatted_amount_efective!=null" style="text-align:right;font-size:10px;">
+									&nbsp;{{item.formatted_amount_efective}}
+								</td>
+								<td data-title="Monto.Efect" class="font-regular" *ngIf="item.formatted_amount_efective==null" style="text-align:right;font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Cant.Anul" class="font-regular center_aligned" *ngIf="item.count_anulate!=null" style="font-size:10px;">
+									&nbsp;{{item.count_anulate}}
+								</td>
+								<td data-title="Cant.Anul" class="font-regular center_aligned" *ngIf="item.count_anulate==null" style="font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Monto.Anul" class="font-regular" *ngIf="item.formatted_amount_anulate!=null" style="text-align:right;font-size:10px;">
+									&nbsp;{{item.formatted_amount_anulate}}
+								</td>
+								<td data-title="Monto.Anul" class="font-regular" *ngIf="item.formatted_amount_anulate==null" style="text-align:right;font-size:11px;">
+									&nbsp;	  
+								</td>
+								<td data-title="Estatus" class="font-regular" *ngIf="item.formatted_status!=null" style="text-align:right;font-size:10px;">
+									&nbsp;{{item.formatted_status}}
+								</td>
+								<td data-title="Estatus" class="font-regular" *ngIf="item.formatted_status==null" style="text-align:right;font-size:11px;">
+										  
+								</td>
+								<td data-title="ACCIONES" class="font-regular" style="text-align:right;">
+									<div style="display:inline-block;margin-right:5px;margin-left:5px;">
+										<a (click)="redirectVoucher(item)"><img src="assets/images/archivo.svg" width="24px" height="24px"></a>
+									</div>
+									<div class="btn-group" role="group" style="padding-left:0px;padding-right:0px;margin-bottom:5px;">
+										
+										<div class="dropdown">
+											<button class="btn" type="button" name="dropdownName{{i}}" id="dropdownMenu{{i}}" data-bs-toggle="dropdown" aria-expanded="false" style="background:transparent;box-shadow:none;margin:0px;padding:5px;">
+												<i class="fa fa-plus" style="color:#78909C; cursor: pointer;"></i>
+											</button>
+											<!-- Menú del dropdown -->
+											<div class="dropdown-menu dropdown-menu-right dropdown-ins" role="menu">
+												<form class="form-horizontal" role="form" *ngFor="let item1 of item.actions; let j = index;">
+													<a class="dropdown-item font-regular" style="font-size:14px; cursor: pointer;" (click)="selectedAction(item,item1)">{{item1.functionality_detail}}</a>
+												</form>
+											</div>
+										  </div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> 
+				<custom-table 
+					[size]="pagingActual.count"
+					[labelSize]="'Total'"
+					[alignSize]="'alignRight'"
+					[totalPage]="detallePorPagina"
+					[totalPageRecords]="totalPage"
+					[pageSelected]="pageSelected"
+					(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+					(valueFirst)="getValueFirst($event)"
+					(valuePrevious)="getValuePrevious($event)"
+					(valueNext)="getValueNext($event)"
+					(valueLast)="getValueLast($event)"
+					(valueChangeRecords)="getValueChangeRecords($event)"
+				>
+				</custom-table>	
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+				<h3 class="font-regular" style="color:#d0d6e2;">No hay registros</h3>
+			</div>
+		</div>
+	</div>
+</main>
+
+<div class="modal fade bd-example-modal-sm" id="modalLoteDelete" tabindex="-1" role="dialog" aria-labelledby="Mensaje" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-sm" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h6 class="modal-title font-bold" id="myModalLabel" style="margin-bottom:0px;margin-top:0px;"><b>Borrar:&nbsp;</b></h6>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:left;" (click)="deselectedData()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="word-wrap: break-word;">
+			<p class="font-regular"  *ngIf="dataSelected!=null" style="font-size:12px;">¿Desea borrar el lote <b class="font-bold">{{dataSelected.lot_number}}</b> de tipo de pago <b class="font-bold">{{dataSelected.transaction_type}}</b>?</p>
+		</div>
+		<div class="modal-footer">
+			<button style="font-size:12px;" type="button" class="btn btn-light font-regular" data-dismiss="modal" (click)="deselectedData()">Cerrar</button>
+			<button style="font-size:12px;" type="button" class="btn btn-primary font-regular" data-dismiss="modal" (click)="deleteLote()">Eliminar</button>
+		</div>
+	</div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modalReciboLote" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-sm" style="width:300px;">
+<div class="modal-content" style="width:300px;">
+	<div class="modal-header">
+		<h6 class="modal-title font-regular" id="myModalLabel" style="margin-bottom:0px;margin-top:0px;"><b>Transmisión Lote</b></h6>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:left;">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" id="modalBodyLote" style="padding:5px;">
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-light font-regular" style="font-size:12px;" data-dismiss="modal">Cancelar</button>
+	</div>
+</div>
+</div>
+</div>
